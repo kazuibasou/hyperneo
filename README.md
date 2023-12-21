@@ -82,7 +82,7 @@ This json object named `settings` stores the order of node labels, the set of no
 	data_name = "workplace"
 	G = hypergraph.read_empirical_hypergraph_data(data_name, print_info=True)
 
-(4) Set a random seed and the hyperparameters.
+(4) Set the random seed and the hyperparameters.
 
 	random_state = settings["random_state"]
 	(K, gamma) = settings[data_name]["hyperparam"]
@@ -92,7 +92,9 @@ This json object named `settings` stores the order of node labels, the set of no
 	model = hyperneo.HyperNEO(G, K, gamma, random_state=random_state)
 	best_loglik, (U, W, Beta) = model.fit()
 
-(6) Visualize the inference results. Run the following command to vidualize inferred membership and affinity matrices:
+(6) Visualize the inference results. 
+
+Run the following command to vidualize inferred membership and affinity matrices:
 
 	comm_vis.inferred_membership_and_affinity_matrices(G, data_name, settings, U, W)
 
