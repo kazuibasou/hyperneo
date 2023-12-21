@@ -40,7 +40,7 @@ This generates the following structure of the directory.
 We use four empirical attributed hypergraphs publicly available.
 
 #### workplace and hospital data
-(1) Download `preprocessed_real_data.zip` in the data set [1] and unzip it.
+(1) Download `preprocessed_real_data.zip` in the data set [2] and unzip it.
 
 (2) Find the files `workspace1.npz`, `workspace1_meta.csv`, `hospital.npz`, and `hospital_meta.csv` in the unzipped folder.
 
@@ -52,11 +52,11 @@ We use four empirical attributed hypergraphs publicly available.
 
 #### high-school data
 
-Download `contact-high-school.zip` in the data set [2] and unzip it into the folder `hyperneo/data/`.
+Download `contact-high-school.zip` in the data set [3] and unzip it into the folder `hyperneo/data/`.
 
 #### primary-school data
 
-Download `contact-primary-school.zip` in the data set [3] and unzip it into the folder `hyperneo/data/`.
+Download `contact-primary-school.zip` in the data set [4] and unzip it into the folder `hyperneo/data/`.
 
 This generates the following structure of the directory.
 
@@ -106,11 +106,13 @@ The output figures will be stored in the folder `hyperneo/figs/`
 
 ## Reference
 
-[1] Ruggeri, Nicolo, 2023, "Real and Synthetic data for Hypergraph Benchmarking (processed for the Hy-MMSBM generative model)", [<a href="https://doi.org/10.17617/3.HRW0OE">link</a>], Edmond, V1.
+[1] Kazuki Nakajima and Takeaki Uno. Inferring community structure in attributed hypergraphs using stochastic block models. December 2023. [<a href="">arxiv</a>].
 
-[2] Austin R. Benson. contact-high-school dataset (labeled). [<a href="https://www.cs.cornell.edu/~arb/data/contact-high-school-labeled/">link</a>].
+[2] Nicolo Ruggeri, 2023, "Real and Synthetic data for Hypergraph Benchmarking (processed for the Hy-MMSBM generative model)", [<a href="https://doi.org/10.17617/3.HRW0OE">link</a>], Edmond, V1.
 
-[3] Austin R. Benson. contact-primary-school dataset (labeled). [<a href="https://www.cs.cornell.edu/~arb/data/contact-primary-school-labeled/">link</a>].
+[3] Austin R. Benson. contact-high-school dataset (labeled). [<a href="https://www.cs.cornell.edu/~arb/data/contact-high-school-labeled/">link</a>].
+
+[4] Austin R. Benson. contact-primary-school dataset (labeled). [<a href="https://www.cs.cornell.edu/~arb/data/contact-primary-school-labeled/">link</a>].
 
 ## License
 
