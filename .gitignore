@@ -1,0 +1,9 @@
+.DS_Store
+/__pycache__
+/figs
+/data
+/data/contact-high-school
+/data/contact-primary-school
+/data/hospital
+/data/workplace
+

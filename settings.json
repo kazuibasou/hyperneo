@@ -1,0 +1,101 @@
+{
+  "random_state": 42,
+  "workplace": {
+    "label_name": [
+      "DISQ",
+      "DMCT",
+      "DSE",
+      "SFLE",
+      "SRH"
+    ],
+    "label_order": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "hyperparam": [
+      5,
+      0.9
+    ]
+  },
+  "hospital": {
+    "label_name": [
+      "ADM",
+      "MED",
+      "NUR",
+      "PAT"
+    ],
+    "label_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "hyperparam": [
+      2,
+      0.4
+    ]
+  },
+  "contact-high-school": {
+    "label_name": [
+      "2BIO1",
+      "2BIO2",
+      "2BIO3",
+      "MP*1",
+      "MP*2",
+      "PSI*",
+      "PC",
+      "PC*",
+      "MP"
+    ],
+    "label_order": [
+      0,
+      1,
+      2,
+      8,
+      3,
+      4,
+      6,
+      7,
+      5
+    ],
+    "hyperparam": [
+      9,
+      0.8
+    ]
+  },
+  "contact-primary-school": {
+    "label_name": [
+      "5B",
+      "5A",
+      "4A",
+      "Teachers",
+      "3B",
+      "4B",
+      "2A",
+      "1B",
+      "2B",
+      "1A",
+      "3A"
+    ],
+    "label_order": [
+      9,
+      7,
+      6,
+      8,
+      10,
+      4,
+      2,
+      5,
+      1,
+      0,
+      3
+    ],
+    "hyperparam": [
+      11,
+      0.8
+    ]
+  }
+}
