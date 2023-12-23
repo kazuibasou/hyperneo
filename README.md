@@ -68,6 +68,21 @@ This generates the following structure of the directory.
 
 ### Inference of community structure in a hypergraph
 
+#### Quick run
+
+(1) Go to `hyperneo/`.
+
+(2) Run the following command:
+
+	python3 demo.py
+
+Perform the inference of community structure in the workplace hypergraph by default. 
+Uncomment any one of lines 7--10 in `hyperneo/demo.py` to change the data set.
+
+The figures visualizing inferred community structure in the given hypergraph will be saved in `hyperneo/figs/`.
+
+#### More details
+
 (1) Go to `hyperneo/`.
 
 (2) Import libraries and load the experimental settings.
@@ -75,7 +90,7 @@ This generates the following structure of the directory.
 	import hypergraph, hyperneo, comm_vis
 	settings = comm_vis.read_settings()
 
-This json object named `settings` stores the order of node labels, the set of node label names, and the hyperparameter set for each empirical hypergraph in addition to the random seed.
+This json object named `settings` stores the order of node labels, the set of node label names, the order of inferred communities, and the hyperparameter set for each empirical hypergraph in addition to the random seed.
 
 (3) Load a data set. You can specify "workplace", "hospital", "high-school", or "primary-school" as `data_name`. In this example, specify the workplace data set.
 
@@ -98,13 +113,11 @@ Run the following command to vidualize inferred membership and affinity matrices
 
 	comm_vis.inferred_membership_and_affinity_matrices(G, data_name, settings, U, W)
 
-Run the following command to map nodes into a two-dimensional vector space using the inferred parameters:
+Run the following command to map nodes into a two-dimensional vector space using the inferred membership and affinity matrices:
 
 	comm_vis.node_layout(G, data_name, settings, U, W, metric="euclidean")
 
 You can specify "euclidean" or "cosine" as `metric`.
-
-The output figures will be stored in the folder `hyperneo/figs/`
 
 ## Reference
 
