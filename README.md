@@ -137,4 +137,4 @@ This source code is released under the GPL-3.0 license, see LICENSE.txt.
 - Kazuki Nakajima (https://kazuibasou.github.io)
 - nakajima@tmu.ac.jp
 
-(Last update: 2023/12/21)
+(Last update: 2023/12/23)
