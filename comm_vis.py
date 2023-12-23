@@ -15,16 +15,14 @@ import json
 warnings.simplefilter('ignore')
 
 fontsize = 30
-#fp = FontProperties(fname=r'/Users/kazuki/PycharmProjects/lab/IPAfont00303/ipagp.ttf',size=fontsize)
 plt.rcParams["font.size"] = fontsize
-#plt.rcParams['font.family'] = "sans-serif"
-plt.rcParams['xtick.direction'] = 'in' #x軸の目盛線が内向き('in')か外向き('out')か双方向か('inout')
-plt.rcParams['ytick.direction'] = 'in' #y軸の目盛線が内向き('in')か外向き('out')か双方向か('inout')
-plt.rcParams['xtick.major.width'] = 2.5 #x軸主目盛り線の線幅
-plt.rcParams['xtick.minor.width'] = 1 #x軸主目盛り線の線幅
-plt.rcParams['ytick.major.width'] = 2.5 #y軸主目盛り線の線幅
-plt.rcParams['ytick.minor.width'] = 1 #y軸主目盛り線の線幅
-plt.rcParams['axes.linewidth'] = 2.5 #軸の線幅edge linewidth。囲みの太さ
+plt.rcParams['xtick.direction'] = 'in' 
+plt.rcParams['ytick.direction'] = 'in' 
+plt.rcParams['xtick.major.width'] = 2.5 
+plt.rcParams['xtick.minor.width'] = 1 
+plt.rcParams['ytick.major.width'] = 2.5 
+plt.rcParams['ytick.minor.width'] = 1
+plt.rcParams['axes.linewidth'] = 2.5 
 plt.rcParams['xtick.major.size'] = 15
 plt.rcParams['xtick.minor.size'] = 12.5
 plt.rcParams['ytick.major.size'] = 15
@@ -39,33 +37,11 @@ def read_settings():
 
     return settings
 
-def compute_best_comm_order(U_ref, U, K, eps=1e-10):
-    N1, N2 = U_ref.shape[0], U.shape[0]
-    K1, K2 = U_ref.shape[1], U.shape[1]
-    if N1 != N2 or K1 != K2:
-        print("Error: given matrices do not have the same shape.")
-        print(N1, N2)
-        exit()
-
-    community_order_lst = list(itertools.permutations(range(0, K), r=K))
-    highest_sim, best_comm_order = float("-inf"), []
-    for comm_order in community_order_lst:
-        num, den = 0, 0
-        for i in range(0, N1):
-            U_i = np.array([U[i][k] for k in list(comm_order)])
-            num += float(np.dot(U_ref[i], U_i)) / max((np.linalg.norm(U_ref[i]) * np.linalg.norm(U_i)), eps)
-            den += 1
-        cs = float(num) / den
-        if cs > highest_sim:
-            highest_sim = cs
-            best_comm_order = comm_order
-
-    return highest_sim, best_comm_order
-
 def inferred_membership_and_affinity_matrices(G, data_name, settings, U, W):
 
-    K = int(U.shape[1])
+    N, K = int(U.shape[0]), int(U.shape[1])
     label_order = settings[data_name]["label_order"]
+    community_order = settings[data_name]["community_order"]
 
     node_lst_by_label = {x: [] for x in range(0, G.Z)}
     for i in range(0, G.N):
@@ -78,25 +54,14 @@ def inferred_membership_and_affinity_matrices(G, data_name, settings, U, W):
         #print(len(node_lst_by_label[x]))
 
     U_sum = U.sum(axis=1)
+    normalized_U = np.zeros((N, K), dtype=float)
     for i in range(0, G.N):
-        U[i] /= U_sum[i]
-
-    node_propensity = np.zeros((G.Z, K))
-    for i in range(0, G.N):
-        z = int(G.X[i])
-        node_propensity[z] += U[i]
-
-    community_order = []
-    for i in range(0, min(G.Z, K)):
-        z = label_order[i]
-        k_lst = sorted([(k, node_propensity[z][k]) for k in range(0, K) if k not in community_order], reverse=True, key=lambda x: x[1])
-        k_ = int(k_lst[0][0])
-        community_order.append(k_)
+        normalized_U[i] = U[i] / U_sum[i]
 
     membership_matrix = np.zeros((G.N, K))
     for j in range(0, len(node_lst)):
         i = node_lst[j]
-        membership_matrix[j] = [U[i][k] for k in community_order]
+        membership_matrix[j] = [normalized_U[i][k] for k in community_order]
 
     yticks = []
     ylabels = []
@@ -174,7 +139,7 @@ def node_layout(G, data_name, settings, U, W, metric):
     K = int(U.shape[1])
     label_name = settings[data_name]["label_name"]
     label_order = settings[data_name]["label_order"]
-    random_state = settings["random_state"]
+    random_state = int(settings["random_state"])
 
     node_lst_by_label = {x: [] for x in range(0, G.Z)}
     num_nodes_by_label_ = {x: 0 for x in range(0, G.Z)}
@@ -249,7 +214,6 @@ def node_layout(G, data_name, settings, U, W, metric):
             'Id': ids,
             'UMAP1': x,
             'UMAP2': y,
-            # 'Dim 3': z,
             'color': z,
         }
     )
@@ -269,7 +233,7 @@ def node_layout(G, data_name, settings, U, W, metric):
         ),
         margin=dict(l=5, r=5, t=5, b=5),
         plot_bgcolor="white",
-        # legend={'traceorder': 'normal'},
+        legend={'traceorder': 'normal'},
         showlegend=False,
     )
 
@@ -281,33 +245,3 @@ def node_layout(G, data_name, settings, U, W, metric):
     fig.write_image("./figs/" + str(data_name) + "_node_layout_umap_" + str(metric) + ".pdf")
 
     return
-
-if __name__ == '__main__':
-
-    data_name = "workplace"
-    #data_name = "hospital"
-    #data_name = "contact-high-school"
-    #data_name = "contact-primary-school"
-
-    print("Data: " + data_name + " hypergraph.")
-
-    if data_name in {"workplace", "hospital"}:
-        G = hypergraph.read_nicolo_hypergraph_data(data_name, True)
-    elif data_name in {"contact-primary-school", "contact-high-school"}:
-        G = hypergraph.read_benson_hypergraph_data(data_name, True)
-    else:
-        print("ERROR: given data set is not defined.")
-        exit()
-
-    setting = {}
-
-    # Inference
-    K = int(param[0])
-    gamma = float(param[1])
-    model = hyperneo.HyperNEO(G, K, gamma, random_state=random_state)
-    best_loglik, (U, W, Beta) = model.fit()
-
-    # Visualize inference results
-    visualize_inferred_membership_and_affinity_matrices(G, data_name, label_order, U, W)
-    visualize_node_layout_using_hyperneo(G, data_name, label_name, label_order, U, W, metric="euclidean")
-    visualize_node_layout_using_hyperneo(G, data_name, label_name, label_order, U, W, metric="cosine")
