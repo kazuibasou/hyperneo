@@ -3,10 +3,10 @@
 *HyperNEO* is a statistical framework that incorporates node attribute data into the learning of community structure in a hypergraph, employing a stochastic block model [1].
 The name "HyperNEO" comes from our message that "Node attribute data can Enhance the learning of Overlapping community structure in Hypergraphs."
 
-We provide code for the HyperNEO in Python.
+I provide code for the HyperNEO in Python.
 
 # Requirements
-We confirmed that our code runs in Python 3.9.0.
+I confirmed that the code runs in Python 3.9.0.
 See requirements.txt for the libraries used in our code.
 
 # Usage
@@ -37,7 +37,7 @@ This generates the following structure of the directory.
 
 ## Construction of data sets
 
-We use four empirical attributed hypergraphs publicly available.
+Use four empirical attributed hypergraphs publicly available.
 
 ### workplace and hospital data
 (1) Download `preprocessed_real_data.zip` in the data set [2] and unzip it.
