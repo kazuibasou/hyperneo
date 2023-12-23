@@ -52,11 +52,11 @@ We use four empirical attributed hypergraphs publicly available.
 
 ### high-school data
 
-Download `contact-high-school.zip` in the data set [3] and unzip it into the folder `hyperneo/data/`.
+Download `contact-high-school.zip` in the data set [3] and unzip it in the folder `hyperneo/data/`.
 
 ### primary-school data
 
-Download `contact-primary-school.zip` in the data set [4] and unzip it into the folder `hyperneo/data/`.
+Download `contact-primary-school.zip` in the data set [4] and unzip it in the folder `hyperneo/data/`.
 
 This generates the following structure of the directory.
 
@@ -66,7 +66,7 @@ This generates the following structure of the directory.
 	├ hospital/
 	└ workplace/
 
-## Inference of community structure in a hypergraph
+## Inference of community structure
 
 ### Quick run
 
@@ -109,7 +109,7 @@ This json object named `settings` stores the order of node labels, the set of no
 
 (6) Visualize the inference results. 
 
-Run the following command to vidualize inferred membership and affinity matrices:
+Run the following command to visualize inferred membership and affinity matrices:
 
 	comm_vis.inferred_membership_and_affinity_matrices(G, data_name, settings, U, W)
 
