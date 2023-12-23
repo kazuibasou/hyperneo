@@ -6,7 +6,7 @@ The name "HyperNEO" comes from our message that "Node attribute data can Enhance
 We provide code for the HyperNEO in Python.
 
 ## Requirements
-We confirmed that our code runs in Python 3.9.
+We confirmed that our code runs in Python 3.9.0.
 See requirements.txt for the libraries used in our code.
 
 ## Usage

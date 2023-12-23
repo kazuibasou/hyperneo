@@ -207,7 +207,7 @@ def node_layout(G, data_name, settings, U, W, metric):
         "darkturquoise",
     ]
 
-    learned_mat = np.zeros((G.N, G.N))
+    learned_mat = np.zeros((G.N, G.N), dtype=float)
     E = []
     node_degree = {i: 0 for i in range(0, G.N)}
     for m in range(0, G.M):
@@ -223,6 +223,7 @@ def node_layout(G, data_name, settings, U, W, metric):
             node_degree[i] += 1
 
     average_node_degree = float(np.average(list(node_degree.values())))
+    #print(random_state, average_node_degree, metric)
 
     mapper = umap.UMAP(n_components=2, random_state=random_state, n_neighbors=int(average_node_degree), min_dist=0.1, metric=metric)
     embedded_mat = mapper.fit_transform(learned_mat)
