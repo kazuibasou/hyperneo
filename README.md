@@ -5,11 +5,11 @@ The name "HyperNEO" comes from our message that "Node attribute data can Enhance
 
 We provide code for the HyperNEO in Python.
 
-## Requirements
+# Requirements
 We confirmed that our code runs in Python 3.9.0.
 See requirements.txt for the libraries used in our code.
 
-## Usage
+# Usage
 
 (1) Clone this repository:
 
@@ -35,11 +35,11 @@ This generates the following structure of the directory.
 	├ main.py
 	└ requirements.txt
 
-### Construction of data sets
+## Construction of data sets
 
 We use four empirical attributed hypergraphs publicly available.
 
-#### workplace and hospital data
+### workplace and hospital data
 (1) Download `preprocessed_real_data.zip` in the data set [2] and unzip it.
 
 (2) Find the files `workspace1.npz`, `workspace1_meta.csv`, `hospital.npz`, and `hospital_meta.csv` in the unzipped folder.
@@ -50,11 +50,11 @@ We use four empirical attributed hypergraphs publicly available.
 
 (5) Put the files `hospital.npz` and `hospital_meta.csv` in the folder `hyperneo/data/hospital/`.
 
-#### high-school data
+### high-school data
 
 Download `contact-high-school.zip` in the data set [3] and unzip it into the folder `hyperneo/data/`.
 
-#### primary-school data
+### primary-school data
 
 Download `contact-primary-school.zip` in the data set [4] and unzip it into the folder `hyperneo/data/`.
 
@@ -66,9 +66,9 @@ This generates the following structure of the directory.
 	├ hospital/
 	└ workplace/
 
-### Inference of community structure in a hypergraph
+## Inference of community structure in a hypergraph
 
-#### Quick run
+### Quick run
 
 (1) Go to `hyperneo/`.
 
@@ -81,7 +81,7 @@ Uncomment any one of lines 7--10 in `hyperneo/demo.py` to change the data set.
 
 The figures visualizing inferred community structure in the given hypergraph will be saved in `hyperneo/figs/`.
 
-#### More details
+### More details
 
 (1) Go to `hyperneo/`.
 
@@ -119,7 +119,7 @@ Run the following command to map nodes into a two-dimensional vector space using
 
 You can specify "euclidean" or "cosine" as `metric`.
 
-## Reference
+# Reference
 
 [1] Kazuki Nakajima and Takeaki Uno. Inferring community structure in attributed hypergraphs using stochastic block models. December 2023. [<a href="">arxiv</a>].
 
@@ -129,11 +129,11 @@ You can specify "euclidean" or "cosine" as `metric`.
 
 [4] Austin R. Benson. contact-primary-school dataset (labeled). [<a href="https://www.cs.cornell.edu/~arb/data/contact-primary-school-labeled/">link</a>].
 
-## License
+# License
 
 This source code is released under the GPL-3.0 license, see LICENSE.txt.
 
-## Contact
+# Contact
 - Kazuki Nakajima (https://kazuibasou.github.io)
 - nakajima@tmu.ac.jp
 
