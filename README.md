@@ -9,7 +9,7 @@ I provide code for the HyperNEO in Python.
 I confirmed that the code runs in Python 3.9.0.
 See requirements.txt for the libraries used in our code.
 
-# Usage
+# Setup
 
 (1) Clone this repository:
 
@@ -35,11 +35,11 @@ This generates the following structure of the directory.
 	├ main.py
 	└ requirements.txt
 
-## Construction of data sets
+# Construction of data sets
 
 Use four empirical attributed hypergraphs publicly available.
 
-### workplace and hospital data
+## workplace and hospital data
 (1) Download `preprocessed_real_data.zip` in the data set [2] and unzip it.
 
 (2) Find the files `workspace1.npz`, `workspace1_meta.csv`, `hospital.npz`, and `hospital_meta.csv` in the unzipped folder.
@@ -50,11 +50,11 @@ Use four empirical attributed hypergraphs publicly available.
 
 (5) Put the files `hospital.npz` and `hospital_meta.csv` in the folder `hyperneo/data/hospital/`.
 
-### high-school data
+## high-school data
 
 Download `contact-high-school.zip` in the data set [3] and unzip it in the folder `hyperneo/data/`.
 
-### primary-school data
+## primary-school data
 
 Download `contact-primary-school.zip` in the data set [4] and unzip it in the folder `hyperneo/data/`.
 
@@ -66,9 +66,9 @@ This generates the following structure of the directory.
 	├ hospital/
 	└ workplace/
 
-## Inference of community structure
+# Inference of community structure
 
-### Quick run
+## Quick run
 
 (1) Go to `hyperneo/`.
 
@@ -81,7 +81,7 @@ Uncomment any one of lines 7--10 in `hyperneo/demo.py` to change the data set.
 
 The figures visualizing inferred community structure in the given hypergraph will be saved in `hyperneo/figs/`.
 
-### More details
+## More details
 
 (1) Go to `hyperneo/`.
 

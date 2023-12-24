@@ -211,16 +211,16 @@ def node_layout(G, data_name, settings, U, W, metric):
 
     df = pd.DataFrame(
         data={
-            'Id': ids,
+            'Node ID': ids,
             'UMAP1': x,
             'UMAP2': y,
-            'color': z,
+            'Attribute': z,
         }
     )
 
-    fig = px.scatter(df, x='UMAP1', y='UMAP2', hover_name="Id",
-                     hover_data=['Id'],
-                     color='color',
+    fig = px.scatter(df, x='UMAP1', y='UMAP2', hover_name='Node ID',
+                     hover_data=['Node ID'],
+                     color='Attribute',
                      #symbol=symbol,
                      color_discrete_map= c_map,
                      )

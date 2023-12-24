@@ -4,10 +4,10 @@ if __name__ == '__main__':
 
     settings = comm_vis.read_settings()
 
-    data_name = "workplace"
+    #data_name = "workplace"
     #data_name = "hospital"
     #data_name = "contact-high-school"
-    #data_name = "contact-primary-school"
+    data_name = "contact-primary-school"
 
     G = hypergraph.read_empirical_hypergraph_data(data_name, print_info=True)
 
