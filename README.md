@@ -68,6 +68,21 @@ This generates the following structure of the directory.
 
 # Inference of community structure in a hypergraph
 
+## Quick run
+
+(1) Go to `hyperneo/`.
+
+(2) Run the following command:
+
+	python3 demo.py
+
+Perform the inference of community structure in the workplace hypergraph by default. 
+Uncomment any one of lines 7--10 in `hyperneo/demo.py` to change the data set.
+
+The figures visualizing inferred community structure in the given hypergraph will be saved in `hyperneo/figs/`.
+
+## Tutorial
+
 See a tutorial in `hyperneo/hyperneo.ipynb`.
 
 # Reference
