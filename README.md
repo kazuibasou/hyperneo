@@ -68,56 +68,7 @@ This generates the following structure of the directory.
 
 # Inference of community structure in a hypergraph
 
-## Quick run
-
-(1) Go to `hyperneo/`.
-
-(2) Run the following command:
-
-	python3 demo.py
-
-Perform the inference of community structure in the workplace hypergraph by default. 
-Uncomment any one of lines 7--10 in `hyperneo/demo.py` to change the data set.
-
-The figures visualizing inferred community structure in the given hypergraph will be saved in `hyperneo/figs/`.
-
-## More details
-
-(1) Go to `hyperneo/`.
-
-(2) Import libraries and load the experimental settings.
-
-	import hypergraph, hyperneo, comm_vis
-	settings = comm_vis.read_settings()
-
-This json object named `settings` stores the order of node labels, the set of node label names, the order of inferred communities, and the hyperparameter set for each empirical hypergraph in addition to the random seed.
-
-(3) Load a data set. You can specify "workplace", "hospital", "high-school", or "primary-school" as `data_name`. In this example, specify the workplace data set.
-
-	data_name = "workplace"
-	G = hypergraph.read_empirical_hypergraph_data(data_name, print_info=True)
-
-(4) Set the random seed and the hyperparameters.
-
-	random_state = settings["random_state"]
-	(K, gamma) = settings[data_name]["hyperparam"]
-
-(5) Fit the latent parameters $U$, $W$, and $\beta$ to the data.
-
-	model = hyperneo.HyperNEO(G, K, gamma, random_state=random_state)
-	best_loglik, (U, W, Beta) = model.fit()
-
-(6) Visualize the inference results. 
-
-Run the following command to visualize inferred membership and affinity matrices:
-
-	comm_vis.inferred_membership_and_affinity_matrices(G, data_name, settings, U, W)
-
-Run the following command to map nodes into a two-dimensional vector space using the inferred membership and affinity matrices:
-
-	comm_vis.node_layout(G, data_name, settings, U, W, metric="euclidean")
-
-You can specify "euclidean" or "cosine" as `metric`.
+We provide a tutorial in `hyperneo/hyperneo.ipynb`.
 
 # Reference
 

@@ -11,6 +11,7 @@ import umap
 from itertools import combinations
 import warnings
 import json
+import chart_studio.plotly as py
 
 warnings.simplefilter('ignore')
 
@@ -37,10 +38,9 @@ def read_settings():
 
     return settings
 
-def inferred_membership_matrix(G, data_name, settings, U, W):
+def inferred_membership_and_affinity_matrices(G, data_name, settings, U, W):
 
     N, K = int(U.shape[0]), int(U.shape[1])
-    label_name = settings[data_name]["label_name"]
     label_order = settings[data_name]["label_order"]
     community_order = settings[data_name]["community_order"]
 
@@ -70,64 +70,33 @@ def inferred_membership_matrix(G, data_name, settings, U, W):
     for i in range(0, len(label_order)):
         cumulative_count = sum([len(node_lst_by_label[label_order[j]]) for j in range(0, i)])
         ypoints.append(cumulative_count)
-    ypoints.append(G.N)
 
     for i in range(0, G.N + 1):
         if i in ypoints:
             yticks.append(i)
             ylabels.append("")
 
-    x_labels = ["k = " + str(i) for i in range(1, K+1)]
-    y_labels = [str(label_name[i]) for i in label_order]
-
-    yticks_ = []
-    for i in range(0, len(label_order)):
-        yticks_.append(float(ypoints[i] + ypoints[i+1]) / 2)
-
     fontsize = 30
     plt.rcParams["font.size"] = fontsize
     plt.rcParams['ytick.direction'] = 'out'
     plt.rcParams['xtick.major.width'] = 0
     plt.rcParams['xtick.minor.width'] = 0
-    plt.rcParams['ytick.major.width'] = 0
+    plt.rcParams['ytick.major.width'] = 1.5
     plt.rcParams['ytick.minor.width'] = 0
 
     plt.figure(figsize=(10, 10))
-    ax = sns.heatmap(membership_matrix, 
-                     vmax=1.0, vmin=0.0, cmap='Reds', square=True, cbar_kws={"shrink": .8},
-                     xticklabels=x_labels, yticklabels=y_labels)
+    ax = sns.heatmap(membership_matrix, vmax=1.0, vmin=0.0, cmap='Reds', square=True, cbar_kws={"shrink": .8})
     cbar = ax.collections[0].colorbar
     cbar.ax.tick_params(labelsize=30)
     ax.set_aspect(membership_matrix.shape[1] / membership_matrix.shape[0])
-    ax.set_xticks([0.5 + i for i in range(0, K)])
-    ax.set_xticklabels(["k = " + str(i) for i in range(1, K+1)])
-    #ax.set_yticks(yticks)
-    ax.set_yticks(yticks_)
-    ax.set_yticklabels(y_labels)
+    ax.set_xticks(list(range(0, K)))
+    ax.set_xticklabels(["" for _ in range(0, K)])
+    ax.set_yticks(yticks)
+    ax.set_yticklabels(ylabels)
     for i in range(0, K):
         ax.axvline(x=i, linewidth=1, color="black")
-    for i in ypoints:
-        ax.axhline(y=i, linewidth=1, color="black")
     plt.subplots_adjust(left=0.15, right=0.95, bottom=0.15, top=0.95)
     plt.savefig("./figs/" + str(data_name) + "_inferred_membership_matrix.png")
-
-    return
-
-def inferred_affinity_matrix(G, data_name, settings, U, W):
-
-    N, K = int(U.shape[0]), int(U.shape[1])
-    label_order = settings[data_name]["label_order"]
-    community_order = settings[data_name]["community_order"]
-
-    node_lst_by_label = {x: [] for x in range(0, G.Z)}
-    for i in range(0, G.N):
-        x = int(G.X[i])
-        node_lst_by_label[x].append(i)
-
-    node_lst = []
-    for x in label_order:
-        node_lst += node_lst_by_label[x]
-        #print(len(node_lst_by_label[x]))
 
     ordered_W = np.zeros((K, K))
     for i in range(0, len(community_order)):
@@ -142,9 +111,9 @@ def inferred_affinity_matrix(G, data_name, settings, U, W):
     plt.rcParams["font.size"] = fontsize
     plt.rcParams['xtick.direction'] = 'out'
     plt.rcParams['ytick.direction'] = 'out'
-    plt.rcParams['xtick.major.width'] = 0
+    plt.rcParams['xtick.major.width'] = 1.5
     plt.rcParams['xtick.minor.width'] = 0
-    plt.rcParams['ytick.major.width'] = 0
+    plt.rcParams['ytick.major.width'] = 1.5
     plt.rcParams['ytick.minor.width'] = 0
 
     plt.figure(figsize=(10, 10))
@@ -152,10 +121,10 @@ def inferred_affinity_matrix(G, data_name, settings, U, W):
                      #annot=True,
                      #fmt='.2f',
                      square=True, cbar_kws={"shrink": .8}, linewidths=0.5)
-    ax.set_xticks([0.5 + i for i in range(0, K)])
-    ax.set_xticklabels(["k = " + str(i) for i in range(1, K+1)])
-    ax.set_yticks([0.5 + i for i in range(0, K)])
-    ax.set_yticklabels(["k = " + str(i) for i in range(1, K+1)])
+    ax.set_xticks(list(range(0, K)))
+    ax.set_xticklabels(["" for _ in range(0, K)])
+    ax.set_yticks(list(range(0, K)))
+    ax.set_yticklabels(["" for _ in range(0, K)])
     for i in range(0, K):
         ax.axvline(x=i, linewidth=1, color="black")
         ax.axhline(y=i, linewidth=1, color="black")
@@ -273,8 +242,9 @@ def node_layout(G, data_name, settings, U, W, metric):
     fig.update_xaxes(gridcolor='lightgray', showline=True, linecolor='black', linewidth=2, zeroline=True, zerolinecolor='lightgray', zerolinewidth=1)
     fig.update_yaxes(gridcolor='lightgray', showline=True, linecolor='black', linewidth=2, zeroline=True, zerolinecolor='lightgray', zerolinewidth=1)
 
-    fig.write_html("./figs/" + str(data_name) + "_node_layout_umap_" + str(metric) + ".html")
-    fig.write_image("./figs/" + str(data_name) + "_node_layout_umap_" + str(metric) + ".pdf")
-    fig.show()
+    #fig.write_html("./figs/" + str(data_name) + "_node_layout_umap_" + str(metric) + ".html")
+    #fig.write_image("./figs/" + str(data_name) + "_node_layout_umap_" + str(metric) + ".pdf")
+    #fig.show(renderer='notebook')
+    py.iplot(fig)
 
     return
