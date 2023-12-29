@@ -275,6 +275,6 @@ def node_layout(G, data_name, settings, U, W, metric):
 
     fig.write_html("./figs/" + str(data_name) + "_node_layout_umap_" + str(metric) + ".html")
     fig.write_image("./figs/" + str(data_name) + "_node_layout_umap_" + str(metric) + ".pdf")
-    fig.show(renderer="svg")
+    fig.show(renderer="png")
 
     return
