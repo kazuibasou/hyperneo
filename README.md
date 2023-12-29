@@ -68,7 +68,7 @@ This generates the following structure of the directory.
 
 # Inference of community structure in a hypergraph
 
-We provide a tutorial in `hyperneo/hyperneo.ipynb`.
+See a tutorial in `hyperneo/hyperneo.ipynb`.
 
 # Reference
 
