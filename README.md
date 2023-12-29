@@ -79,9 +79,9 @@ Uncomment any one of lines 7--10 in `hyperneo/demo.py` to change the data set.
 
 The figures visualizing inferred community structure in the given hypergraph will be saved in `hyperneo/figs/`.
 
-## Tutorial
+## More details
 
-See a tutorial in `hyperneo/hyperneo.ipynb`.
+See `hyperneo/hyperneo.ipynb` for more details.
 
 # Reference
 
