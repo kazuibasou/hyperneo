@@ -70,7 +70,7 @@ See `hyperneo/hyperneo.ipynb` for more details.
 
 # Reference
 
-[1] Kazuki Nakajima and Takeaki Uno. Inferring community structure in attributed hypergraphs using stochastic block models. December 2023. [<a href="">arxiv</a>].
+[1] Kazuki Nakajima and Takeaki Uno. Inferring community structure in attributed hypergraphs using stochastic block models. 2024. [<a href="">arxiv</a>].
 
 [2] Nicolo Ruggeri, 2023, "Real and Synthetic data for Hypergraph Benchmarking (processed for the Hy-MMSBM generative model)", [<a href="https://doi.org/10.17617/3.HRW0OE">link</a>], Edmond, V1.
 
