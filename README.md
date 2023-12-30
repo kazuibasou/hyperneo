@@ -15,11 +15,7 @@ See requirements.txt for the libraries used in our code.
 
 	git clone git@github.com:kazuibasou/hyperneo.git
 
-(2) Go to `hyperneo/`:
-
-	cd hyperneo/
-
-(3) Run the command:
+(2) Run the command at `hyperneo/`:
 
 	mkdir data figs
 
@@ -55,7 +51,7 @@ This generates the following structure of the directory.
 	├ hospital/
 	└ workplace/
 
-# Inference of community structure in a hypergraph
+# Inference of community structure
 
 ## Quick run
 
