@@ -57,7 +57,7 @@ This generates the following structure of the directory.
 
 Run the following command at `hyperneo/`:
 
-	python3 demo.py
+	python3 main.py
 
 Perform inference of community structure in the workplace hypergraph by default. 
 Uncomment any one of lines 7--10 in `hyperneo/demo.py` to change the data set.
