@@ -12,7 +12,7 @@ from itertools import combinations
 import warnings
 import json
 
-warnings.simplefilter('ignore')
+#warnings.simplefilter('ignore')
 
 fontsize = 30
 plt.rcParams["font.size"] = fontsize
@@ -152,7 +152,7 @@ def inferred_affinity_matrix(G, data_name, W, community_order):
 
     return
 
-def node_layout(G, data_name, U, W, label_name, label_order, random_state, metric):
+def node_layout(G, data_name, U, W, label_name, label_order, random_state, metric, fig_show=True):
     K = int(U.shape[1])
 
     node_lst_by_label = {x: [] for x in range(0, G.Z)}
@@ -257,6 +257,7 @@ def node_layout(G, data_name, U, W, label_name, label_order, random_state, metri
 
     fig.write_html("./figs/" + str(data_name) + "_node_layout_umap_" + str(metric) + ".html")
     fig.write_image("./figs/" + str(data_name) + "_node_layout_umap_" + str(metric) + ".pdf")
-    fig.show(renderer="png")
+    if fig_show:
+        fig.show(renderer="png")
 
     return

@@ -25,6 +25,6 @@ if __name__ == '__main__':
 
     comm_vis.inferred_affinity_matrix(G, data_name, W, community_order)
 
-    comm_vis.node_layout(G, data_name, U, W, label_name, label_order, random_state, metric="euclidean")
+    comm_vis.node_layout(G, data_name, U, W, label_name, label_order, random_state, metric="euclidean", fig_show=False)
 
-    comm_vis.node_layout(G, data_name, U, W, label_name, label_order, random_state, metric="cosine")
+    comm_vis.node_layout(G, data_name, U, W, label_name, label_order, random_state, metric="cosine", fig_show=False)
