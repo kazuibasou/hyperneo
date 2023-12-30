@@ -23,23 +23,12 @@ See requirements.txt for the libraries used in our code.
 
 	mkdir data figs
 
-This generates the following structure of the directory.
-
-	hyperneo/
-	├ data/
-	├ figs/
-	├ LICENSE
-	├ README.md
-	├ hypergraph.py
-	├ hyperneo.py
-	├ main.py
-	└ requirements.txt
-
 # Construction of data sets
 
 Use four empirical attributed hypergraphs publicly available.
 
 ## workplace and hospital data
+
 (1) Download `preprocessed_real_data.zip` in the data set [2] and unzip it.
 
 (2) Find the files `workspace1.npz`, `workspace1_meta.csv`, `hospital.npz`, and `hospital_meta.csv` in the unzipped folder.

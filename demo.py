@@ -17,10 +17,14 @@ if __name__ == '__main__':
     model = hyperneo.HyperNEO(G, K, gamma, random_state=random_state)
     best_loglik, (U, W, Beta) = model.fit()
 
-    comm_vis.inferred_membership_matrix(G, data_name, settings, U, W)
+    label_name = settings[data_name]["label_name"]
+    label_order = settings[data_name]["label_order"]
+    community_order = settings[data_name]["community_order"]
 
-    comm_vis.inferred_affinity_matrix(G, data_name, settings, U, W)
+    comm_vis.inferred_membership_matrix(G, data_name, U, label_name, label_order, community_order)
 
-    comm_vis.node_layout(G, data_name, settings, U, W, metric="euclidean")
+    comm_vis.inferred_affinity_matrix(G, data_name, W, community_order)
 
-    comm_vis.node_layout(G, data_name, settings, U, W, metric="cosine")
+    comm_vis.node_layout(G, data_name, U, W, label_name, label_order, random_state, metric="euclidean")
+
+    comm_vis.node_layout(G, data_name, U, W, label_name, label_order, random_state, metric="cosine")

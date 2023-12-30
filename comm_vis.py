@@ -37,12 +37,9 @@ def read_settings():
 
     return settings
 
-def inferred_membership_matrix(G, data_name, settings, U, W):
+def inferred_membership_matrix(G, data_name, U, label_name, label_order, community_order):
 
     N, K = int(U.shape[0]), int(U.shape[1])
-    label_name = settings[data_name]["label_name"]
-    label_order = settings[data_name]["label_order"]
-    community_order = settings[data_name]["community_order"]
 
     node_lst_by_label = {x: [] for x in range(0, G.Z)}
     for i in range(0, G.N):
@@ -77,7 +74,7 @@ def inferred_membership_matrix(G, data_name, settings, U, W):
             yticks.append(i)
             ylabels.append("")
 
-    x_labels = ["k = " + str(i) for i in range(1, K+1)]
+    x_labels = ["k = " + str(k) for k in community_order]
     y_labels = [str(label_name[i]) for i in label_order]
 
     yticks_ = []
@@ -100,7 +97,7 @@ def inferred_membership_matrix(G, data_name, settings, U, W):
     cbar.ax.tick_params(labelsize=30)
     ax.set_aspect(membership_matrix.shape[1] / membership_matrix.shape[0])
     ax.set_xticks([0.5 + i for i in range(0, K)])
-    ax.set_xticklabels(["k = " + str(i) for i in range(1, K+1)])
+    ax.set_xticklabels(["k = " + str(k) for k in community_order])
     #ax.set_yticks(yticks)
     ax.set_yticks(yticks_)
     ax.set_yticklabels(y_labels)
@@ -113,21 +110,9 @@ def inferred_membership_matrix(G, data_name, settings, U, W):
 
     return
 
-def inferred_affinity_matrix(G, data_name, settings, U, W):
+def inferred_affinity_matrix(G, data_name, W, community_order):
 
-    N, K = int(U.shape[0]), int(U.shape[1])
-    label_order = settings[data_name]["label_order"]
-    community_order = settings[data_name]["community_order"]
-
-    node_lst_by_label = {x: [] for x in range(0, G.Z)}
-    for i in range(0, G.N):
-        x = int(G.X[i])
-        node_lst_by_label[x].append(i)
-
-    node_lst = []
-    for x in label_order:
-        node_lst += node_lst_by_label[x]
-        #print(len(node_lst_by_label[x]))
+    N, K = int(G.N), int(W.shape[0])
 
     ordered_W = np.zeros((K, K))
     for i in range(0, len(community_order)):
@@ -153,9 +138,9 @@ def inferred_affinity_matrix(G, data_name, settings, U, W):
                      #fmt='.2f',
                      square=True, cbar_kws={"shrink": .8}, linewidths=0.5)
     ax.set_xticks([0.5 + i for i in range(0, K)])
-    ax.set_xticklabels(["k = " + str(i) for i in range(1, K+1)])
+    ax.set_xticklabels(["k = " + str(k) for k in community_order])
     ax.set_yticks([0.5 + i for i in range(0, K)])
-    ax.set_yticklabels(["k = " + str(i) for i in range(1, K+1)])
+    ax.set_yticklabels(["k = " + str(k) for k in community_order])
     for i in range(0, K):
         ax.axvline(x=i, linewidth=1, color="black")
         ax.axhline(y=i, linewidth=1, color="black")
@@ -167,11 +152,8 @@ def inferred_affinity_matrix(G, data_name, settings, U, W):
 
     return
 
-def node_layout(G, data_name, settings, U, W, metric):
+def node_layout(G, data_name, U, W, label_name, label_order, random_state, metric):
     K = int(U.shape[1])
-    label_name = settings[data_name]["label_name"]
-    label_order = settings[data_name]["label_order"]
-    random_state = int(settings["random_state"])
 
     node_lst_by_label = {x: [] for x in range(0, G.Z)}
     num_nodes_by_label_ = {x: 0 for x in range(0, G.Z)}
