@@ -80,7 +80,7 @@ See `hyperneo/hyperneo.ipynb` for more details.
 
 # License
 
-This source code is released under the GPL-3.0 license, see LICENSE.txt.
+This source code is released under the MIT License, see LICENSE.txt.
 
 # Contact
 - Kazuki Nakajima (https://kazuibasou.github.io)
