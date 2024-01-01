@@ -60,7 +60,7 @@ Run the following command at `hyperneo/`:
 	python3 main.py
 
 Perform inference of community structure in the workplace hypergraph by default. 
-Uncomment any one of lines 7--10 in `hyperneo/demo.py` to change the data set.
+Uncomment any one of lines 7--10 in `hyperneo/main.py` to change the data set.
 
 The figures visualizing inferred community structure in the given hypergraph will be saved in `hyperneo/figs/`.
 
