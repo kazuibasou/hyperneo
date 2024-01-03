@@ -1,7 +1,29 @@
-# HyperNEO - Inferring community structure in attributed hypergraphs using stochastic block models
+<h1 align="center">
+HyperNEO <br/>  
+<i>A mixed-membership stochastic block model for hypergraphs with node attributes</i>
+</h1>
 
-*HyperNEO* is a statistical framework that incorporates node attribute data into the learning of community structure in a hypergraph, employing a stochastic block model [1].
-The name 'HyperNEO' comes from our message that 'Node attribute data can Enhance the learning of Overlapping community structure in Hypergraphs.'
+<p align="center">
+<i>Inferring community structure in attributed hypergraphs</i>
+</p>
+
+<p align="center">
+<a href="https://github.com/nickruggeri/Hy-MMSBM/blob/main/LICENSE" target="_blank">
+<img alt="License: MIT" src="https://img.shields.io/github/license/kazuibasou/hyperneo">
+</a>
+
+<a href="https://www.python.org/" target="_blank">
+<img alt="Made with Python" src="https://img.shields.io/badge/made%20with-python-1f425f.svg">
+</a>
+
+<a href="https://arxiv.org/abs/2401.00688" target="_blank">
+<img alt="ARXIV: 2401.00688" src="https://img.shields.io/badge/arXiv-2401.00688-red.svg">
+</a>
+
+</p>
+
+*HyperNEO* is a statistical framework for incorporating node attribute data into the learning of community structure in a hypergraph, employing a stochastic block model [1].
+The name 'HyperNEO' comes from our message that *'Node attribute data can Enhance the learning of Overlapping community structure in Hypergraphs.'*
 
 I provide code for the HyperNEO in Python.
 
