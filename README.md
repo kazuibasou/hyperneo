@@ -4,7 +4,7 @@ HyperNEO <br/>
 </h1>
 
 <p align="center">
-<i>Inferring community structure in attributed hypergraphs</i>
+<i>Inference and visualization of community structure in attributed hypergraphs</i>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@ HyperNEO <br/>
 ![Graphical abstract](graphical_abstract.jpg)
 
 
-*HyperNEO* is a statistical framework for incorporating node attribute data into the learning of community structure in a hypergraph, employing a stochastic block model [1].
+*HyperNEO* is a statistical framework for incorporating node attribute data into the inference of community structure in a hypergraph, employing a stochastic block model [1].
 The name 'HyperNEO' comes from our message that *'Node attribute data can Enhance the learning of Overlapping community structure in Hypergraphs.'*
 
 I provide code for the HyperNEO in Python.
@@ -77,7 +77,7 @@ This generates the following structure of the directory.
 	├ hospital/
 	└ workplace/
 
-# Inference of community structure
+# Inference and visualization of community structure
 
 ## Quick run
 
@@ -85,7 +85,7 @@ Run the following command at `hyperneo/`:
 
 	python3 main.py
 
-Perform inference of community structure in the workplace hypergraph by default. 
+Perform inference and visualization of community structure in the workplace hypergraph by default. 
 Uncomment any one of lines 7--10 in `hyperneo/main.py` to change the data set.
 
 The figures visualizing inferred community structure in the given hypergraph will be saved in `hyperneo/figs/`.
