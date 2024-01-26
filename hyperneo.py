@@ -208,7 +208,7 @@ class HyperNEO:
 
     def calc_structural_loglik(self):
         U_sum = self.U.sum(axis=0)
-        first_addend = self.C * 0.5 * ((((U_sum @ self.W) * U_sum).sum(axis=-1)) - (((self.U @ self.W) * self.U).sum()))
+        first_addend = self.C * 0.5 * (((U_sum @ self.W) * U_sum).sum(axis=-1) - ((self.U @ self.W) * self.U).sum())
         second_addend = np.dot(self.A, np.log(self.poi_lambda))
 
         return (-1) * first_addend + second_addend
@@ -253,11 +253,7 @@ class HyperNEO:
                 self.update_w()
                 self.update_beta()
 
-                print(self.calc_loglik(self.gamma))
-
             L = self.calc_loglik(self.gamma)[2]
-
-            print(L)
 
             if L > best_loglik:
                 best_loglik = L
