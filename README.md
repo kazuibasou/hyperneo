@@ -8,7 +8,7 @@ HyperNEO <br/>
 </p>
 
 <p align="center">
-<a href="https://github.com/nickruggeri/Hy-MMSBM/blob/main/LICENSE" target="_blank">
+<a href="https://github.com/kazuibasou/hyperneo/blob/main/LICENSE" target="_blank">
 <img alt="License: MIT" src="https://img.shields.io/github/license/kazuibasou/hyperneo">
 </a>
 
