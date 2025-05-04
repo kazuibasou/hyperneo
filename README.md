@@ -21,7 +21,7 @@ HyperNEO <br/>
 
 ![Graphical abstract](graphical_abstract.jpg)
 
-This repository provides a framework, *HyperNEO*, that combines mixed-membership stochastic block models for hypergraphs with dimensionality reduction methods [paper](https://link.springer.com/article/10.1007/s13278-025-01440-z).
+This repository provides a framework, *HyperNEO*, that combines mixed-membership stochastic block models for hypergraphs with dimensionality reduction methods [[paper]](https://link.springer.com/article/10.1007/s13278-025-01440-z).
 
 I provide code for the HyperNEO in Python.
 
