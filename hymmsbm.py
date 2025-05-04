@@ -1,9 +1,11 @@
+import numpy as np
 import math
 from scipy.sparse import csr_matrix
-import numpy as np
 import hypergraph
+import random
+from itertools import combinations
 
-class HyperNEO:
+class HyMMSBM:
     N = 0
     M = 0
     B = []
@@ -15,32 +17,23 @@ class HyperNEO:
     C = []
     C_for_U = []
     C_for_W = []
-    Z = 0
-    Beta = []
-    X = []
-    gamma = 0.0
     D = 0
     random_state = None
 
-    def __init__(self, G: hypergraph.HyperGraph, K, gamma, random_state=None):
+    def __init__(self, G: hypergraph.HyperGraph, K, random_state=None):
         self.E = np.array([set(G.E[m]) for m in range(0, G.M)], dtype=set)
         self.A = np.array([int(G.A[m]) for m in range(0, G.M)], dtype=int)
-        self.X = np.zeros((G.N, G.Z), dtype=int)
         self.N = G.N
         self.M = G.M
         self.B = np.zeros((G.N, G.M), dtype=int)
         self.K = K
-        self.Z = G.Z
-        self.gamma = gamma
         self.U = np.zeros((self.N, self.K), dtype=float)
         self.W = np.zeros((self.K, self.K), dtype=float)
         self.poi_lambda = np.zeros(self.M, dtype=float)
         self.S = np.zeros((self.M, self.K), dtype=float)
-        self.Beta = np.zeros((self.K, self.Z), dtype=float)
         self.C_for_U = np.zeros((G.N, K), dtype=float)
         self.C_for_W = np.zeros((K, K), dtype=float)
         self.D = max([len(e) for e in G.E])
-        self.tol = 1e-3
         self.EPS = 1e-10
         self.random_state = random_state
 
@@ -55,11 +48,6 @@ class HyperNEO:
         self.C = sum([float(2)/(s*(s-1)) for s in range(2, self.D+1)])
         self.C_for_U = np.full((self.N, self.K), self.C)
         self.C_for_W = np.full((self.K, self.K), self.C)
-
-        # Attribute matrix
-        for i in range(0, self.N):
-            z = int(G.X[i])
-            self.X[i][z] = 1
 
         return
 
@@ -81,13 +69,6 @@ class HyperNEO:
         second_addend = self.B.T @ (((self.U @ self.W) * self.U).sum(axis=-1))
         self.poi_lambda = 0.5 * (first_addend - second_addend)
         self.poi_lambda = np.where(self.poi_lambda < self.EPS, self.EPS, self.poi_lambda)
-
-        # Matrix Beta
-        self.Beta = rng.random((self.K, self.Z))
-        Beta_sum = self.Beta.sum(axis=1)
-        Beta_sum = np.where(Beta_sum < self.EPS, self.EPS, Beta_sum)
-        for k in range(0, self.K):
-            self.Beta[k] /= Beta_sum[k]
 
         return
 
@@ -115,35 +96,20 @@ class HyperNEO:
                 print("Error: lambda_m for m=" + str(m) + " is zero.")
                 return False
 
-        Beta_sum = self.Beta.sum(axis=1)
-        for k in range(0, self.K):
-            if math.isclose(Beta_sum[k], 0):
-                print("Error: sum of beta_kz for k=" + str(k) + " is zero.")
-                return False
-
         return True
 
-    def update_u(self, gamma):
+    def update_u(self):
         # Numerator
-        ## First term
         multiplier = self.A / (2.0 * self.poi_lambda)
         weighting = self.B.multiply(multiplier[None, :])
         first_addend = weighting @ self.S
         weighting_sum = np.asarray(weighting.sum(axis=1)).reshape(-1, 1)
         second_addend = weighting_sum * self.U
-        first_term = (1 - gamma) * (self.U * np.matmul(first_addend - second_addend, self.W))
-
-        ## Second term
-        divider = self.U @ self.Beta
-        divider = np.where(divider < self.EPS, self.EPS, divider)
-        X_ = self.X / divider
-        second_term = gamma * (self.U * (X_ @ self.Beta.T))
-
-        num = 2.0 * (first_term + second_term)
+        num = 2.0 * (self.U * np.matmul(first_addend - second_addend, self.W))
 
         # Denominator
         U_sum = self.U.sum(axis=0)
-        den = (1 - gamma) * (self.C_for_U * (np.matmul(self.W, U_sum)[None, :] - np.matmul(self.U, self.W)))
+        den = (self.C_for_U * (np.matmul(self.W, U_sum)[None, :] - np.matmul(self.U, self.W)))
         den = np.where(den < self.EPS, self.EPS, den)
 
         # Update U
@@ -188,54 +154,20 @@ class HyperNEO:
 
         return
 
-    def update_beta(self):
-        # Numerator
-        divider = self.U @ self.Beta
-        divider = np.where(divider < self.EPS, self.EPS, divider)
-        X_ = self.X / divider
-        num = self.Beta * (self.U.T @ X_)
-
-        # Denominator
-        den = np.zeros((self.K, self.Z), dtype=float)
-        num_sum = num.sum(axis=1)
-        den[:, :] = num_sum[:, None]
-        den = np.where(den < self.EPS, self.EPS, den)
-
-        # Update Beta
-        self.Beta = num / den
-
-        return
-
-    def calc_structural_loglik(self):
+    def calc_loglik(self):
         U_sum = self.U.sum(axis=0)
         first_addend = self.C * 0.5 * (((U_sum @ self.W) * U_sum).sum(axis=-1) - ((self.U @ self.W) * self.U).sum())
         second_addend = np.dot(self.A, np.log(self.poi_lambda))
 
         return (-1) * first_addend + second_addend
 
-    def calc_attribute_loglik(self):
-        num = self.U @ self.Beta
-        den = np.zeros((self.N, self.Z), dtype=float)
-        den[:, :] = self.U.sum(axis=1)[:, None]
-        den = np.where(den < self.EPS, self.EPS, den)
-        lik = num / den
-        lik = np.where(lik < self.EPS, self.EPS, lik)
-        log_term = np.log(lik)
-
-        return (self.X * log_term).sum()
-
-    def calc_loglik(self, gamma):
-        structural_loglik = self.calc_structural_loglik()
-        attribute_loglik = self.calc_attribute_loglik()
-        total_loglik = (1 - gamma) * structural_loglik + gamma * attribute_loglik
-
-        return structural_loglik, attribute_loglik, total_loglik
-
-    def fit(self, initial_r=10, num_step=20):
+    def fit(self, initial_r=10, num_step=100, tol=1e-3):
 
         best_loglik = float("-inf")
         best_param = None
         r_count = 0
+
+        num_step_lst = []
 
         for i in range(0, initial_r):
             if self.random_state == None:
@@ -248,16 +180,105 @@ class HyperNEO:
                 self.initialize_params(self.random_state + r_count)
                 r_count += 1
 
-            for j in range(0, num_step):
-                self.update_u(self.gamma)
+            j = 0
+            loglik_conv = False
+            pre_loglik = float("-inf")
+            while j < num_step and loglik_conv == False:
+                self.update_u()
                 self.update_w()
-                self.update_beta()
 
-            L = self.calc_loglik(self.gamma)[2]
+                L = self.calc_loglik()
+                if j > 0:
+                    loglik_conv = float(math.fabs(L - pre_loglik)) / math.fabs(pre_loglik) < tol
+                pre_loglik = L
+                j += 1
+
+            L = self.calc_loglik()
 
             if L > best_loglik:
                 best_loglik = L
-                best_param = (self.U, self.W, self.Beta)
+                best_param = (self.U, self.W)
+
+            num_step_lst.append(j)
+
+        print("Numbers of steps", num_step_lst)
 
         return best_loglik, best_param
 
+class HyperParamTuning:
+    K_lst = []
+
+    def __init__(self, G):
+        #max_K = max(G.Z, 2)
+        max_K = 15
+        self.K_lst = list(range(2, max_K + 1))
+
+        return
+
+    def construct_train_and_test_sets(self, G, p=0.2):
+        hyperedge_indices = list(range(0, G.M))
+        random.shuffle(hyperedge_indices)
+
+        E_train, E_test = [G.E[hyperedge_indices[i]] for i in range(0, int((1 - p) * G.M))], [G.E[hyperedge_indices[i]] for i in range(int((1 - p) * G.M), G.M)]
+        A_train, A_test = [G.A[hyperedge_indices[i]] for i in range(0, int((1 - p) * G.M))], [G.A[hyperedge_indices[i]] for i in range(int((1 - p) * G.M), G.M)]
+
+        G_train = hypergraph.HyperGraph(G.N, int(len(E_train)), G.Z)
+        G_train.E = E_train
+        G_train.A = A_train
+        G_train.X = G.X
+
+        G_test = hypergraph.HyperGraph(G.N, int(len(E_test)), G.Z)
+        G_test.E = E_test
+        G_test.A = A_test
+        G_test.X = G.X
+
+        return G_train, G_test
+
+    def grid_search(self, G, num_runs=100):
+
+        auc_score = np.zeros((len(self.K_lst), num_runs), dtype=float)
+        for k in range(0, len(self.K_lst)):
+            K = self.K_lst[k]
+            for r in range(0, num_runs):
+                G_train, G_test = self.construct_train_and_test_sets(G)
+
+                model = HyMMSBM(G_train, K)
+                best_loglik, (U, W) = model.fit()
+
+                auc = 0.0
+                sampled_edges = []
+                for m in range(0, G_test.M):
+                    e, e_ = set(G_test.E[m]), set()
+                    s = len(e)
+                    flag = True
+                    while flag:
+                        e_ = set(random.sample(range(G_test.N), k=s))
+                        if len(e_) == s and e_ not in G.E and e_ not in sampled_edges:
+                            flag = False
+                            sampled_edges.append(e_)
+
+                    param0 = sum([(U[i_] * W * U[j_].T).sum() for (i_, j_) in list(combinations(sorted(list(e_)), 2))])
+                    param1 = sum([(U[i_] * W * U[j_].T).sum() for (i_, j_) in list(combinations(sorted(list(e)), 2))])
+
+                    if param1 > param0:
+                        auc += 1.0
+                    elif math.isclose(param0, param1):
+                        auc += 0.5
+
+                auc = float(auc) / G_test.M
+                auc_score[k][r] = auc
+
+            print(K, np.mean(auc_score[k]), np.std(auc_score[k]))
+
+        return auc_score
+
+    def run(self, G: hypergraph.HyperGraph):
+        auc_score = self.grid_search(G)
+
+        best_auc, best_hyperparm = (-1, -1), (-1, -1)
+        for k in range(0, auc_score.shape[0]):
+            if np.mean(auc_score[k]) > best_auc[0]:
+                best_auc = (np.mean(auc_score[k]), np.std(auc_score[k]))
+                best_hyperparm = self.K_lst[k]
+
+        return best_auc, best_hyperparm, auc_score
