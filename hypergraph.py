@@ -11,9 +11,7 @@ import csv
 import pickle
 from itertools import combinations
 
-#data_dir = "/Users/kazuki/lab/hyperneo/data/"
-data_dir = "/Users/knakajima/research/hyperneo/data/"
-#data_dir = "/Users/testuser/Desktop/hyperneo/data/"
+data_dir = "./data/"
 
 class HyperGraph():
     N = 0
@@ -129,7 +127,7 @@ def read_empirical_hypergraph_data(data_name, print_info=True):
 
 def read_benson_hypergraph_data(data_name, print_info=True):
     N, E, A = 0, [], []
-    f_path = data_dir + "emp/" + data_name + "/hyperedges-" + data_name + ".txt"
+    f_path = data_dir + data_name + "/hyperedges-" + data_name + ".txt"
     with open(f_path, 'r') as f:
         for line in f:
             e = set([int(i)-1 for i in list(str(line[:-1]).split(","))])
@@ -147,7 +145,7 @@ def read_benson_hypergraph_data(data_name, print_info=True):
 
     M = len(E)
 
-    f_path = data_dir + "emp/" + data_name + "/label-names-" + data_name + ".txt"
+    f_path = data_dir + data_name + "/label-names-" + data_name + ".txt"
     with open(f_path, 'r') as f:
         Z = len(f.readlines())
 
@@ -155,7 +153,7 @@ def read_benson_hypergraph_data(data_name, print_info=True):
     G.E = list(E)
     G.A = np.array(A)
 
-    f_path = data_dir + "emp/" + data_name + "/node-labels-" + data_name + ".txt"
+    f_path = data_dir + data_name + "/node-labels-" + data_name + ".txt"
     valid_labels = set()
     with open(f_path, 'r') as f:
         i = 0
@@ -218,7 +216,7 @@ def read_nicolo_hypergraph_data(data_name, print_info=True):
         print("Error: given data set is not found.")
         exit()
 
-    f_path = data_dir + "emp/" + data_name + "/" + ori_data_name[data_name] + ".npz"
+    f_path = data_dir + data_name + "/" + ori_data_name[data_name] + ".npz"
     npzfile = np.load(f_path, allow_pickle=True)
     A, B, hyperedges = npzfile['A'], npzfile['B'], npzfile['hyperedges']
 
@@ -232,7 +230,7 @@ def read_nicolo_hypergraph_data(data_name, print_info=True):
     G.E = [set(e) for e in hyperedges]
     G.A = np.array(A)
 
-    f_path = data_dir + "emp/" + data_name + "/" + ori_data_name[data_name] + "_meta.csv"
+    f_path = data_dir + data_name + "/" + ori_data_name[data_name] + "_meta.csv"
     valid_labels = set()
     with open(f_path, 'r') as f:
         reader = csv.reader(f)
